@@ -2,7 +2,7 @@
 #현재의 디렉토리주소 알아보기
 getwd()
 #디렌토리 주소 재설정
-setwd("C:/Users/hannews/Documents/2018 언론진흥재단 뉴스빅데이터 활용 교육/프로젝트")
+setwd("C:/Users/hannews/Documents/GitHub")
 #디렌토리 주소 재설정
 getwd()
 
