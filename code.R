@@ -2,7 +2,7 @@
 #현재의 디렉토리주소 알아보기
 getwd()
 #디렌토리 주소 재설정
-setwd("C:/Users/hannews/Documents/GitHub")
+setwd("C:/Users/hannews/Documents/GitHub/2018BigKinds/gay")
 #디렌토리 주소 재설정
 getwd()
 
@@ -32,28 +32,22 @@ for (val in year)
   nam <- paste("data", val, sep = "")
   assign(nam, subset(udata, grepl(paste0("^",val), 일자)))
 }
-####
 
-
-
-## 사전 선택 택1
-useSejongDic()
-useNIADic()
-
-
-### tempdata에서 콘텐츠(본문) 부분만 따오기 이후의 코드를 
-### ext50 펑션으로 정의
 install.packages("tm") #Corpus f.
 library(tm)
 
 install.packages("KoNLP") #extractNoun f.
 library(KoNLP)
+## 사전 선택 택1
+# useSejongDic()
+useNIADic()
 
 install.packages("stringr") #str_replace_all f.
 library(stringr)
 
-# ext50 정의 시작
-ext50 <- function(data) {
+### tempdata에서 콘텐츠(본문) 부분만 따오기 이후의 코드를 
+### ext50 펑션으로 정의 그러나 톱 30으로 바꾸었음
+ext50 <- function(data, year) {
 contents <- data$'본문' 
 # head(contents)
 
@@ -121,24 +115,30 @@ wordcount <- table(vectordata)
 #prop.word.freq <-cumsum.word.freq/cumsum.word.freq[length(cumsum.word.freq)]
 #prop.word.freq[1:100]
 
-#상위빈도 50단어 저장
-result <- head(sort(wordcount, decreasing=TRUE), n=50)
+#상위빈도 30단어 저장
+result <- head(sort(wordcount, decreasing=TRUE), n=30)
 
 #데이터프레임으로 변환
-df.result <-data.frame(result)
+#df.result <-data.frame(result)
+#연도 추가
+#df.result$year <-year
 #순위 추가
-df.result$rank <-rank(df.result$Freq)
-return(df.result)
+#df.result$rank <-rank(df.result$Freq)
+return(result)
 } # ext50 펑션 정의 끝
 
 # 1990~2018 연도별 단어 추출
-for (val in year)
+words <- vector("list", 29)
+for (val in 1:29)
 {
-  nam1 <- paste("data", val, sep ="")
-  nam2 <- paste("words", val, sep ="")
-  assign(nam2, ext50(eval(parse(text=nam1))))
+  nam1 <- paste("data", val+1989, sep ="")
+  #nam2 <- paste("words", val, sep ="")
+  assign("words[val]", ext50(eval(parse(text=nam1)), val+1989))
   #print(nam2$일자)
 }
+
+#합치기
+t <- Reduce(function(x,y) rbind(x, y), list(words1990:words2018))
 
 # csv로 저장하기
 for (val in year)
