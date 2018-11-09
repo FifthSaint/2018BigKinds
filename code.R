@@ -119,16 +119,17 @@ wordcount <- table(vectordata)
 result <- head(sort(wordcount, decreasing=TRUE), n=30)
 
 #데이터프레임으로 변환
-#df.result <-data.frame(result)
+df.result <-data.frame(result)
 #연도 추가
-#df.result$year <-year
+df.result$year <-year
 #순위 추가
 #df.result$rank <-rank(df.result$Freq)
-return(result)
+return(df.result)
 } # ext50 펑션 정의 끝
 
 # 1990~2018 연도별 단어 추출
 words <- vector("list", 29)
+
 for (val in 1:29)
 {
   nam1 <- paste("data", val+1989, sep ="")
@@ -138,7 +139,8 @@ for (val in 1:29)
 }
 
 #합치기
-t <- Reduce(function(x,y) rbind(x, y), list(words1990:words2018))
+t <- Reduce(function(x,y) rbind(x, y), list(words1990, words1991, words1992))
+write.csv(t, file="t.csv")
 
 # csv로 저장하기
 for (val in year)
