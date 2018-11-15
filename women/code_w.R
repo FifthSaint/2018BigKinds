@@ -146,7 +146,7 @@ return(df.result)
 # }
 
 # 기존 코드
-for (val in 2012:2013)
+for (val in 2016:2017)
 {
   nam1 <- paste("data", val, sep ="")
   nam2 <- paste("words", val, sep ="")
@@ -164,7 +164,7 @@ t <- Reduce(cbind, list(words1990, words1991, words1992, words1993, words1994, w
                         words2002, words2003, words2004, words2005, words2006, words2007,
                         words2008, words2009, words2010, words2011, words2012))
 # csv로 저장하기
-write.table(t, file = "women.csv", row.names=FALSE, sep=",")
+write.table(t, file = "women2013-14.csv", row.names=FALSE, sep=",")
 
 # for (val in year)
 # {
